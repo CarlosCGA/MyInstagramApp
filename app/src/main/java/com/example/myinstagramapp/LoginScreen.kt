@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -89,57 +91,21 @@ fun Content(modifier: Modifier) {
             contentDescription = "Instagram"
         )
 
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp),
-            colors = TextFieldDefaults.colors(
-                focusedLabelColor = colorResource(id = R.color.bright_blue),
-                unfocusedLabelColor = Color.Gray,
-                focusedContainerColor = Color.White
-            ),
-            value = itemLogIn,
-            label = {
-                Text(
-                    text = "Phone number, username or email"
-                )
-            },
-            onValueChange = { newValue -> itemLogIn = newValue },
-            singleLine = true
-        )
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            colors = TextFieldDefaults.colors(
-                focusedLabelColor = colorResource(id = R.color.bright_blue),
-                unfocusedLabelColor = Color.Gray,
-                focusedContainerColor = Color.White,
-            ),
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Face,
-                    contentDescription = "Toggle password",
-                    Modifier.clickable {
+        Spacer(modifier = Modifier.size(30.dp))
+        Email(itemLogIn) { newItem -> itemLogIn = newItem }
+        Spacer(modifier = Modifier.size(8.dp))
+        Password(password = password) { newItem -> password = newItem }
 
-                    }
-                )
-            },
-            value = password,
-            label = { Text(text = "Password") },
-            onValueChange = { newValue -> password = newValue },
-            singleLine = true
-        )
 
         Text(
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(top = 12.dp, end = 8.dp)
+                .padding(top = 12.dp)
                 .clickable { },
             text = "Forgot password?",
             fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            color = colorResource(id = R.color.bright_blue)
+            fontSize = 12.sp,
+            color = Color(0xFF4EA8E9)
         )
 
         Button(
@@ -209,6 +175,53 @@ fun Content(modifier: Modifier) {
 }
 
 @Composable
+fun Email(itemLogIn: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = colorResource(id = R.color.bright_blue),
+            unfocusedLabelColor = Color.Gray,
+            focusedContainerColor = Color.White
+        ),
+        value = itemLogIn,
+        label = {
+            Text(
+                text = "Phone number, username or email"
+            )
+        },
+        onValueChange = { onValueChange.invoke(itemLogIn) },
+        singleLine = true
+    )
+}
+
+@Composable
+fun Password(password: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = colorResource(id = R.color.bright_blue),
+            unfocusedLabelColor = Color.Gray,
+            focusedContainerColor = Color.White,
+        ),
+        trailingIcon = {
+            Icon(
+                imageVector = Icons.Default.Face,
+                contentDescription = "Toggle password",
+                Modifier.clickable {
+
+                }
+            )
+        },
+        value = password,
+        label = { Text(text = "Password") },
+        onValueChange = { onValueChange.invoke(password) },
+        singleLine = true
+    )
+}
+
+@Composable
 fun Footer(modifier: Modifier) {
     Column(modifier = modifier) {
         Divider(modifier = Modifier.padding(horizontal = 4.dp))
@@ -225,7 +238,9 @@ fun Footer(modifier: Modifier) {
             )
 
             Text(
-                modifier = Modifier.clickable { },
+                modifier = Modifier
+                    .padding(start = 2.dp)
+                    .clickable { },
                 text = "Sign Up.",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
