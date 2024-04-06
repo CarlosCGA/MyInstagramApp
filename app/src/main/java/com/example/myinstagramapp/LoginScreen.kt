@@ -16,13 +16,19 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,7 +48,11 @@ fun LoginScreen() {
             .padding(8.dp)
     ) {
         Header(Modifier.align(Alignment.TopEnd))
-        Content(Modifier.align(Alignment.Center))
+        Content(
+            Modifier
+                .align(Alignment.Center)
+                .padding(horizontal = 8.dp)
+        )
         Footer()
     }
 }
@@ -65,6 +75,13 @@ fun Header(modifier: Modifier) {
 
 @Composable
 fun Content(modifier: Modifier) {
+    var itemLogIn by rememberSaveable {
+        mutableStateOf("")
+    }
+    var password by rememberSaveable {
+        mutableStateOf("")
+    }
+
     Column(modifier = modifier) {
         Image(
             modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -75,22 +92,44 @@ fun Content(modifier: Modifier) {
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 30.dp, start = 8.dp, end = 8.dp),
-            value = "",
-            label = { Text(text = "Phone number, username or email") },
-            onValueChange = {},
+                .padding(top = 30.dp),
+            colors = TextFieldDefaults.colors(
+                focusedLabelColor = colorResource(id = R.color.bright_blue),
+                unfocusedLabelColor = Color.Gray,
+                focusedContainerColor = Color.White
+            ),
+            value = itemLogIn,
+            label = {
+                Text(
+                    text = "Phone number, username or email"
+                )
+            },
+            onValueChange = { newValue -> itemLogIn = newValue },
             singleLine = true
         )
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp, start = 8.dp, end = 8.dp),
-            value = "",
+                .padding(top = 8.dp),
+            colors = TextFieldDefaults.colors(
+                focusedLabelColor = colorResource(id = R.color.bright_blue),
+                unfocusedLabelColor = Color.Gray,
+                focusedContainerColor = Color.White,
+            ),
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Face,
+                    contentDescription = "Toggle password",
+                    Modifier.clickable {
+
+                    }
+                )
+            },
+            value = password,
             label = { Text(text = "Password") },
-            onValueChange = {},
+            onValueChange = { newValue -> password = newValue },
             singleLine = true
         )
-
 
         Text(
             modifier = Modifier
@@ -106,7 +145,7 @@ fun Content(modifier: Modifier) {
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp, start = 8.dp, end = 8.dp)
+                .padding(top = 24.dp)
                 .align(Alignment.CenterHorizontally),
             onClick = {},
             shape = RoundedCornerShape(4.dp),
@@ -123,7 +162,7 @@ fun Content(modifier: Modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, start = 8.dp, end = 8.dp)
+                .padding(top = 16.dp)
                 .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -150,9 +189,10 @@ fun Content(modifier: Modifier) {
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp, start = 8.dp, end = 8.dp)
-                .height(20.dp),
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 30.dp)
+                .height(20.dp)
+                .clickable { },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -165,7 +205,6 @@ fun Content(modifier: Modifier) {
                 fontWeight = FontWeight.SemiBold
             )
         }
-
     }
 }
 
