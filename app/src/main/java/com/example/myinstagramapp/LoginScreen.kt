@@ -53,7 +53,7 @@ fun LoginScreen() {
                 .align(Alignment.Center)
                 .padding(horizontal = 8.dp)
         )
-        Footer()
+        Footer(Modifier.align(Alignment.BottomCenter))
     }
 }
 
@@ -209,6 +209,28 @@ fun Content(modifier: Modifier) {
 }
 
 @Composable
-fun Footer() {
+fun Footer(modifier: Modifier) {
+    Column(modifier = modifier) {
+        Divider(modifier = Modifier.padding(horizontal = 4.dp))
 
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 30.dp, bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Don't have an account?",
+                fontSize = 14.sp,
+            )
+
+            Text(
+                modifier = Modifier.clickable { },
+                text = "Sign Up.",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(id = R.color.bright_blue)
+            )
+        }
+    }
 }
