@@ -83,6 +83,9 @@ fun Content(modifier: Modifier) {
     var password by rememberSaveable {
         mutableStateOf("")
     }
+    var enabledLogInButton by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Column(modifier = modifier) {
         Image(
@@ -92,85 +95,28 @@ fun Content(modifier: Modifier) {
         )
 
         Spacer(modifier = Modifier.size(30.dp))
+
         Email(itemLogIn) { newItem -> itemLogIn = newItem }
+
         Spacer(modifier = Modifier.size(8.dp))
+
         Password(password = password) { newItem -> password = newItem }
 
+        Spacer(modifier = Modifier.size(12.dp))
 
-        Text(
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(top = 12.dp)
-                .clickable { },
-            text = "Forgot password?",
-            fontWeight = FontWeight.Bold,
-            fontSize = 12.sp,
-            color = Color(0xFF4EA8E9)
-        )
+        ForgotPassword(modifier = Modifier.align(Alignment.End))
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp)
-                .align(Alignment.CenterHorizontally),
-            onClick = {},
-            shape = RoundedCornerShape(4.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color.White,
-                containerColor = colorResource(id = R.color.bright_blue),
-                disabledContentColor = Color.White,
-                disabledContainerColor = colorResource(id = R.color.baby_blue)
-            )
-        ) {
-            Text(text = "Log In")
-        }
+        Spacer(modifier = Modifier.size(24.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-                .height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Divider(
-                modifier = Modifier
-                    .weight(1f),
-                color = Color.LightGray
-            )
-            Text(
-                text = "OR",
-                color = Color.LightGray,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .wrapContentWidth(align = Alignment.CenterHorizontally)
-            )
-            Divider(
-                modifier = Modifier
-                    .weight(1f),
-                color = Color.LightGray
-            )
-        }
+        LogInButton(enabledLogInButton)
 
-        Row(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 30.dp)
-                .height(20.dp)
-                .clickable { },
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(painter = painterResource(id = R.drawable.fb), contentDescription = "Facebook")
-            Text(
-                modifier = Modifier.padding(start = 4.dp),
-                text = "Continue as Dave Johnson",
-                color = colorResource(id = R.color.bright_blue),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-        }
+        Spacer(modifier = Modifier.size(16.dp))
+
+        LogInDivider()
+
+        Spacer(modifier = Modifier.size(30.dp))
+
+        SocialLogIn(modifier = Modifier.align(Alignment.CenterHorizontally))
     }
 }
 
@@ -222,6 +168,87 @@ fun Password(password: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
+fun ForgotPassword(modifier: Modifier) {
+    Text(
+        modifier = modifier
+            .clickable { },
+        text = "Forgot password?",
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp,
+        color = Color(0xFF4EA8E9)
+    )
+}
+
+@Composable
+fun LogInButton(enabled: Boolean) {
+    Button(
+        modifier = Modifier
+            .fillMaxWidth(),
+        onClick = {},
+        shape = RoundedCornerShape(4.dp),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = Color.White,
+            containerColor = colorResource(id = R.color.bright_blue),
+            disabledContentColor = Color.White,
+            disabledContainerColor = colorResource(id = R.color.baby_blue)
+        ),
+        enabled = enabled
+    ) {
+        Text(text = "Log In")
+    }
+}
+
+@Composable
+fun LogInDivider() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Divider(
+            modifier = Modifier
+                .weight(1f),
+            color = Color.LightGray
+        )
+        Text(
+            text = "OR",
+            color = Color.LightGray,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .wrapContentWidth(align = Alignment.CenterHorizontally)
+        )
+        Divider(
+            modifier = Modifier
+                .weight(1f),
+            color = Color.LightGray
+        )
+    }
+}
+
+@Composable
+fun SocialLogIn(modifier: Modifier) {
+    Row(
+        modifier = modifier
+            .height(20.dp)
+            .clickable { },
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(painter = painterResource(id = R.drawable.fb), contentDescription = "Facebook")
+        Text(
+            modifier = Modifier.padding(start = 4.dp),
+            text = "Continue as Dave Johnson",
+            color = Color(0xFF4EA8E9),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+@Composable
 fun Footer(modifier: Modifier) {
     Column(modifier = modifier) {
         Divider(modifier = Modifier.padding(horizontal = 4.dp))
@@ -244,7 +271,7 @@ fun Footer(modifier: Modifier) {
                 text = "Sign Up.",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = colorResource(id = R.color.bright_blue)
+                color = Color(0xFF4EA8E9)
             )
         }
     }
