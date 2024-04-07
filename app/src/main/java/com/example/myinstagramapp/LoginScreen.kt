@@ -253,26 +253,34 @@ fun Footer(modifier: Modifier) {
     Column(modifier = modifier) {
         Divider(modifier = Modifier.padding(horizontal = 4.dp))
 
-        Row(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 30.dp, bottom = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Don't have an account?",
-                fontSize = 14.sp,
-            )
+        Spacer(modifier = Modifier.size(32.dp))
 
-            Text(
-                modifier = Modifier
-                    .padding(start = 2.dp)
-                    .clickable { },
-                text = "Sign Up.",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF4EA8E9)
-            )
-        }
+        SignUp(modifier = Modifier.align(Alignment.CenterHorizontally))
+
+        Spacer(modifier = Modifier.size(16.dp))
+
+    }
+}
+
+@Composable
+fun SignUp(modifier: Modifier) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Don't have an account?",
+            fontSize = 14.sp,
+        )
+
+        Text(
+            modifier = Modifier
+                .padding(start = 2.dp)
+                .clickable { },
+            text = "Sign Up.",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF4EA8E9)
+        )
     }
 }
