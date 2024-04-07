@@ -16,9 +16,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -38,6 +40,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -80,10 +85,12 @@ fun Content(modifier: Modifier) {
     var itemLogIn by rememberSaveable {
         mutableStateOf("")
     }
+
     var password by rememberSaveable {
         mutableStateOf("")
     }
-    var enabledLogInButton by rememberSaveable {
+
+    val logInEnabled by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -100,7 +107,9 @@ fun Content(modifier: Modifier) {
 
         Spacer(modifier = Modifier.size(8.dp))
 
-        Password(password = password) { newItem -> password = newItem }
+        Password(
+            password = password,
+            onValueChange = { newItem -> password = newItem })
 
         Spacer(modifier = Modifier.size(12.dp))
 
@@ -108,7 +117,7 @@ fun Content(modifier: Modifier) {
 
         Spacer(modifier = Modifier.size(24.dp))
 
-        LogInButton(enabledLogInButton)
+        LogInButton(logInEnabled)
 
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -137,12 +146,17 @@ fun Email(itemLogIn: String, onValueChange: (String) -> Unit) {
             )
         },
         onValueChange = { onValueChange.invoke(itemLogIn) },
-        singleLine = true
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
     )
 }
 
 @Composable
 fun Password(password: String, onValueChange: (String) -> Unit) {
+    var showPassword by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth(),
@@ -152,18 +166,30 @@ fun Password(password: String, onValueChange: (String) -> Unit) {
             focusedContainerColor = Color.White,
         ),
         trailingIcon = {
+            val image =
+                if (showPassword)
+                    Icons.Filled.Visibility
+                else
+                    Icons.Filled.VisibilityOff
             Icon(
-                imageVector = Icons.Default.Face,
-                contentDescription = "Toggle password",
+                imageVector = image,
+                contentDescription = "Toggle password visibility",
                 Modifier.clickable {
-
+                    showPassword = !showPassword
                 }
             )
         },
         value = password,
         label = { Text(text = "Password") },
         onValueChange = { onValueChange.invoke(password) },
-        singleLine = true
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        visualTransformation =
+        if (showPassword)
+            PasswordVisualTransformation()
+        else
+            VisualTransformation.None
+
     )
 }
 
@@ -180,7 +206,7 @@ fun ForgotPassword(modifier: Modifier) {
 }
 
 @Composable
-fun LogInButton(enabled: Boolean) {
+fun LogInButton(logInEnabled: Boolean) {
     Button(
         modifier = Modifier
             .fillMaxWidth(),
@@ -188,11 +214,11 @@ fun LogInButton(enabled: Boolean) {
         shape = RoundedCornerShape(4.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = Color.White,
-            containerColor = colorResource(id = R.color.bright_blue),
+            containerColor = Color(0xFF4EA8E9),
             disabledContentColor = Color.White,
-            disabledContainerColor = colorResource(id = R.color.baby_blue)
+            disabledContainerColor = Color(0xFF78C8F9)
         ),
-        enabled = enabled
+        enabled = logInEnabled
     ) {
         Text(text = "Log In")
     }
