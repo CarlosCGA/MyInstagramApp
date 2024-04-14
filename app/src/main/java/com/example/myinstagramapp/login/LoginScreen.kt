@@ -1,4 +1,4 @@
-package com.example.myinstagramapp
+package com.example.myinstagramapp.login
 
 import android.app.Activity
 import androidx.compose.foundation.Image
@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -46,19 +47,21 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myinstagramapp.R
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(loginViewModel: LoginViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
     ) {
         Header(Modifier.align(Alignment.TopEnd))
-        Content(
+        Body(
             Modifier
                 .align(Alignment.Center)
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 8.dp),
+            loginViewModel
         )
         Footer(Modifier.align(Alignment.BottomCenter))
     }
@@ -67,7 +70,7 @@ fun LoginScreen() {
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewLoginScreen() {
-    LoginScreen()
+    LoginScreen(LoginViewModel())
 }
 
 @Composable
@@ -81,18 +84,12 @@ fun Header(modifier: Modifier) {
 }
 
 @Composable
-fun Content(modifier: Modifier) {
-    var itemLogIn by rememberSaveable {
-        mutableStateOf("")
-    }
+fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
+    val email by loginViewModel.email.observeAsState(initial = "")
 
-    var password by rememberSaveable {
-        mutableStateOf("")
-    }
+    val password by loginViewModel.password.observeAsState(initial = "")
 
-    var logInEnabled by rememberSaveable {
-        mutableStateOf(false)
-    }
+    val isLogInEnabled by loginViewModel.isLogInEnabled.observeAsState(initial = false)
 
     Column(modifier = modifier) {
         Image(
@@ -103,18 +100,16 @@ fun Content(modifier: Modifier) {
 
         Spacer(modifier = Modifier.size(30.dp))
 
-        Email(itemLogIn) { newItem ->
-            itemLogIn = newItem
-            logInEnabled = checkLogInConditions(itemLogIn, password)
+        Email(email) { newEmail ->
+            loginViewModel.onLogInChanged(newEmail, password)
         }
 
         Spacer(modifier = Modifier.size(8.dp))
 
         Password(
             password = password,
-            onValueChange = { newItem ->
-                password = newItem
-                logInEnabled = checkLogInConditions(itemLogIn, password)
+            onValueChange = { newPassword ->
+                loginViewModel.onLogInChanged(email, newPassword)
             })
 
         Spacer(modifier = Modifier.size(12.dp))
@@ -123,7 +118,7 @@ fun Content(modifier: Modifier) {
 
         Spacer(modifier = Modifier.size(24.dp))
 
-        LogInButton(logInEnabled)
+        LogInButton(isLogInEnabled)
 
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -133,10 +128,6 @@ fun Content(modifier: Modifier) {
 
         SocialLogIn(modifier = Modifier.align(Alignment.CenterHorizontally))
     }
-}
-
-fun checkLogInConditions(itemLogIn: String, password: String): Boolean {
-    return itemLogIn.isNotBlank() && password.isNotBlank()
 }
 
 @Composable

@@ -66,4 +66,7 @@ dependencies {
 
     //MORE DEFAULT ICONS
     implementation libs.androidx.material.icons.extended
+
+    //LIVEDATA
+    implementation libs.androidx.runtime.livedata
 }
