@@ -90,7 +90,7 @@ fun Content(modifier: Modifier) {
         mutableStateOf("")
     }
 
-    val logInEnabled by rememberSaveable {
+    var logInEnabled by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -103,13 +103,19 @@ fun Content(modifier: Modifier) {
 
         Spacer(modifier = Modifier.size(30.dp))
 
-        Email(itemLogIn) { newItem -> itemLogIn = newItem }
+        Email(itemLogIn) { newItem ->
+            itemLogIn = newItem
+            logInEnabled = checkLogInConditions(itemLogIn, password)
+        }
 
         Spacer(modifier = Modifier.size(8.dp))
 
         Password(
             password = password,
-            onValueChange = { newItem -> password = newItem })
+            onValueChange = { newItem ->
+                password = newItem
+                logInEnabled = checkLogInConditions(itemLogIn, password)
+            })
 
         Spacer(modifier = Modifier.size(12.dp))
 
@@ -129,6 +135,10 @@ fun Content(modifier: Modifier) {
     }
 }
 
+fun checkLogInConditions(itemLogIn: String, password: String): Boolean {
+    return itemLogIn.isNotBlank() && password.isNotBlank()
+}
+
 @Composable
 fun Email(itemLogIn: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
@@ -145,7 +155,7 @@ fun Email(itemLogIn: String, onValueChange: (String) -> Unit) {
                 text = "Phone number, username or email"
             )
         },
-        onValueChange = { onValueChange.invoke(itemLogIn) },
+        onValueChange = { newItem -> onValueChange.invoke(newItem) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
     )
@@ -181,14 +191,14 @@ fun Password(password: String, onValueChange: (String) -> Unit) {
         },
         value = password,
         label = { Text(text = "Password") },
-        onValueChange = { onValueChange.invoke(password) },
+        onValueChange = { newPassword -> onValueChange.invoke(newPassword) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation =
         if (showPassword)
-            PasswordVisualTransformation()
-        else
             VisualTransformation.None
+        else
+            PasswordVisualTransformation()
 
     )
 }
