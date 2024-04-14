@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.myinstagramapp.login.LoginScreen
-import com.example.myinstagramapp.login.LoginViewModel
+import com.example.myinstagramapp.login.ui.LoginScreen
+import com.example.myinstagramapp.login.ui.LoginViewModel
 import com.example.myinstagramapp.ui.theme.MyInstagramAppTheme
 
 class MainActivity : ComponentActivity() {

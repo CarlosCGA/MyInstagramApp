@@ -1,4 +1,4 @@
-package com.example.myinstagramapp.login
+package com.example.myinstagramapp.login.ui
 
 import android.app.Activity
 import androidx.compose.foundation.Image
