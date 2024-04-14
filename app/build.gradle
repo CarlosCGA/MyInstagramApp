@@ -69,4 +69,8 @@ dependencies {
 
     //LIVEDATA
     implementation libs.androidx.runtime.livedata
+
+    //RETROFIT
+    implementation libs.retrofit
+    implementation libs.converter.gson
 }
