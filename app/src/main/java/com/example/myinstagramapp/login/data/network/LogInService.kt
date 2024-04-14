@@ -1,5 +1,6 @@
 package com.example.myinstagramapp.login.data.network
 
+import android.util.Log
 import com.example.myinstagramapp.core.network.RetrofitHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,7 +12,8 @@ class LogInService {
 
     suspend fun doLogIn(user: String, password: String): Boolean {
         return withContext(Dispatchers.IO) {
-            val response = retrofit.create(LogInClient::class.java).doLogIn(user, password)
+            val response = retrofit.create(LogInClient::class.java).doLogIn(/*user, password*/)
+            Log.d("CARLOS", "RESPONSE -> ${response.body()}")
             response.body()?.success ?: false//If null return false
         }
     }

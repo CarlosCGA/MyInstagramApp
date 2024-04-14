@@ -118,7 +118,7 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
 
         Spacer(modifier = Modifier.size(24.dp))
 
-        LogInButton(isLogInEnabled)
+        LogInButton(isLogInEnabled, loginViewModel)
 
         Spacer(modifier = Modifier.size(16.dp))
 
@@ -207,11 +207,11 @@ fun ForgotPassword(modifier: Modifier) {
 }
 
 @Composable
-fun LogInButton(logInEnabled: Boolean) {
+fun LogInButton(logInEnabled: Boolean, loginViewModel: LoginViewModel) {
     Button(
         modifier = Modifier
             .fillMaxWidth(),
-        onClick = {},
+        onClick = { loginViewModel.onLogInSelected() },
         shape = RoundedCornerShape(4.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = Color.White,
