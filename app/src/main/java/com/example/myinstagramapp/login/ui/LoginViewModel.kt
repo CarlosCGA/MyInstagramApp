@@ -40,10 +40,9 @@ class LoginViewModel @Inject constructor(private val logInUseCase: LogInUseCase)
     fun onLogInSelected() {
         viewModelScope.launch {
             val result = logInUseCase(email.value!!, password.value!!)
-            Log.i("CARLOS", "ANTES DE")
 
             if (result) {
-                Log.i("CARLOS", "ADENTRO!")
+                Log.i("CARLOS", "GO IN!")
             }
         }
     }
