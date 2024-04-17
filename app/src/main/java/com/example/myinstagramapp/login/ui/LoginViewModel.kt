@@ -7,9 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myinstagramapp.login.domain.LogInUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel //DAGGER HILT DECLARATION
+class LoginViewModel @Inject constructor(private val logInUseCase: LogInUseCase) : ViewModel() {
+
+    //val logInUseCase = LogInUseCase() UPGRADE WITH DAGGER HILT INJECT CONSTRUCTOR
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
@@ -19,8 +24,6 @@ class LoginViewModel : ViewModel() {
 
     private val _isLogInEnabled = MutableLiveData<Boolean>()
     val isLogInEnabled: LiveData<Boolean> = _isLogInEnabled
-
-    val logInUseCase = LogInUseCase()
 
     fun onLogInChanged(email: String, password: String) {
         _email.value = email

@@ -49,8 +49,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myinstagramapp.R
 
+/**
+ * File (NOT CLASS) which contains LogIn "layout"
+ */
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel) {
+fun LogInScreen(loginViewModel: LoginViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -69,8 +72,9 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
 
 @Preview(showSystemUi = true)
 @Composable
-fun PreviewLoginScreen() {
-    LoginScreen(LoginViewModel())
+fun PreviewLogInScreen() {
+    //val logInViewModel: LoginViewModel by viewModels()
+    //LoginScreen(LoginViewModel())
 }
 
 @Composable
