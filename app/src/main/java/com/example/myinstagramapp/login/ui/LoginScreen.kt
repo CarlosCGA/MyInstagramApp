@@ -48,6 +48,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myinstagramapp.R
+import com.example.myinstagramapp.core.ui.ImageInstagram
 
 /**
  * File (NOT CLASS) which contains LogIn "layout"
@@ -96,11 +97,7 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
     val isLogInEnabled by loginViewModel.isLogInEnabled.observeAsState(initial = false)
 
     Column(modifier = modifier) {
-        Image(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            painter = painterResource(id = R.drawable.insta),
-            contentDescription = "Instagram"
-        )
+        ImageInstagram(modifier = Modifier.align(Alignment.CenterHorizontally))
 
         Spacer(modifier = Modifier.size(30.dp))
 
